@@ -1,9 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  <v-btn variant="tonal" @click="connect">Connect</v-btn>
+
+  <router-view />
 </template>
 
 <script>
+export default {
+  methods: {
+    connect() {
+      console.log(">>", this.$store);
+    },
+  },
+};
+</script>
+
+<!-- <script>
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
@@ -24,3 +37,4 @@ export default {
   margin-top: 60px;
 }
 </style>
+ -->
