@@ -1,16 +1,19 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-  <v-btn variant="tonal" @click="connect">Connect</v-btn>
+  <!-- <v-btn variant="tonal" @click="connect">Connect</v-btn> -->
 
   <router-view />
 </template>
 
 <script>
+import JsSIP from "jssip";
+
 export default {
   methods: {
     connect() {
-      console.log(">>", this.$store);
+      // const socket = new JsSIP.WebSocketInterface("ws://localhost:8080");
+      // this.$store.commit("updateSocket", socket);
     },
   },
 };

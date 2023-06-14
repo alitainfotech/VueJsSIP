@@ -6,6 +6,11 @@ import Home from "@/views/HomePage";
 const routes = [
   {
     path: "/",
+    name: "Root",
+    component: Login,
+  },
+  {
+    path: "/login",
     name: "Login",
     component: Login,
   },

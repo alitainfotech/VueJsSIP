@@ -49,16 +49,24 @@ export default {
 
       // JsSIP.debug.enable("JsSIP:*");
 
-      const options = {
-        configuration: {
-          session_timers: false,
-          uri: `sip:${userName}@example.com`,
-          password: userPassword,
-        },
-        socketInterfaces: ["ws://localhost:8080"],
+      const socket = this.$store.state.socket;
+
+      const configuration = {
+        sockets: [socket],
+        uri: `sip:${userName}@example.com`,
+        password: userPassword,
       };
 
-      this.$store.dispatch("vsip/init", options);
+      const ua = new JsSIP.UA(configuration);
+      ua.start();
+
+      ua.on("connected", function (e) {
+        console.log(">Connected...", e);
+      });
+
+      ua.on("disconnected", function () {
+        console.log(">DisConnected...");
+      });
 
       router.replace({ path: "/home" });
     },
