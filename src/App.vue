@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import JsSIP from "jssip";
+// import JsSIP from "jssip";
 
 export default {
   methods: {

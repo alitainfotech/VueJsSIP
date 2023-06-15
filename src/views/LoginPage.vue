@@ -19,7 +19,7 @@
               @click:append="showPassword = !showPassword"
             />
 
-            <v-btn type="submit" block class="mt-2">Login</v-btn>
+            <v-btn type="submit" class="mt-2">Login</v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -30,7 +30,6 @@
 
 <script>
 import router from "@/router";
-import JsSIP from "jssip";
 
 export default {
   data: () => ({
@@ -51,16 +50,17 @@ export default {
 
       const options = {
         configuration: {
-          session_timers: false,
+          session_timers: true,
           uri: `sip:${userName}@example.com`,
           password: userPassword,
         },
         socketInterfaces: ["ws://localhost:8080"],
+        sipDomain: `sip:${userName}@example.com`,
       };
 
       this.$store.dispatch("vsip/init", options);
 
-      router.replace({ path: "/home" });
+      router.push({ path: "/home" });
     },
   },
 };
