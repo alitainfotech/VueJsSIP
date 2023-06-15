@@ -10,9 +10,25 @@
 // import JsSIP from "jssip";
 
 export default {
+  mounted() {
+    const v = this.$store;
+    console.log(">vsip", v);
+
+    const { dispatch } = this.$store;
+    const callEvts = ["new_call", "ended", "progress", "failed", "confirmed"];
+
+    callEvts.forEach((v) => {
+      dispatch("vsip/subscribe", {
+        type: `${v}`,
+        listener: (log) => {
+          console.log(`>${v}`, log);
+        },
+      });
+    });
+  },
   methods: {
     connect() {
-      // const socket = new JsSIP.WebSocketInterface("ws://localhost:8080");
+      // new JsSIP.WebSocketInterface("ws://localhost:8080");
       // this.$store.commit("updateSocket", socket);
     },
   },
