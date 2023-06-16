@@ -10,7 +10,7 @@
 // import JsSIP from "jssip";
 
 export default {
-  mounted() {
+  /* mounted() {
     const v = this.$store;
     console.log(">vsip", v);
 
@@ -31,7 +31,7 @@ export default {
       // new JsSIP.WebSocketInterface("ws://localhost:8080");
       // this.$store.commit("updateSocket", socket);
     },
-  },
+  }, */
 };
 </script>
 

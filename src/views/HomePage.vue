@@ -22,7 +22,7 @@
       </v-col>
     </v-row>
 
-    <!-- <hr />
+    <hr />
 
     <v-row>
       <v-col>
@@ -40,20 +40,26 @@
           </v-container>
         </v-card>
       </v-col>
-    </v-row> -->
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import { toRaw } from "vue";
+
 export default {
   data() {
     return {
-      remoteUserName: "",
+      remoteUserName: "bob",
       message: "Hello from alice",
       rules: {
         required: (value) => !!value || "Required!",
       },
+      ua: null,
     };
+  },
+  async mounted() {
+    this.ua = await this.$store.state.ua;
   },
   created() {
     this.$store.dispatch("vsip/subscribe", {
@@ -65,17 +71,64 @@ export default {
   },
   methods: {
     callFn() {
+      console.log(">ua", this.ua);
+
+      // Register callbacks to desired call events
+      var eventHandlers = {
+        progress: function (e) {
+          console.log("call is in progress");
+        },
+        failed: function (e) {
+          console.log("call failed with cause: " + e.data.cause);
+        },
+        ended: function (e) {
+          console.log("call ended with cause: " + e.data.cause);
+        },
+        confirmed: function (e) {
+          console.log("call confirmed");
+        },
+      };
+
+      var options = {
+        eventHandlers: eventHandlers,
+        mediaConstraints: { audio: true, video: true },
+      };
+
+      this.ua.call(`sip:${this.remoteUserName}@example.com`, options);
+    },
+    /* callFn() {
       this.$store.dispatch("vsip/setMediaDevices");
 
       this.$store.dispatch("vsip/doCall", {
         target: `${this.remoteUserName}@example.com`,
       });
-    },
+    }, */
     endCallFn() {
       this.$store.dispatch("vsip/callTerminate", { callId: 1 });
     },
-    sendMsgFn() {
+    /* sendMsgFn() {
       this.$store.dispatch("vsip/sendIM", this.message);
+    }, */
+    sendMsgFn() {
+      // Register callbacks to desired message events
+      var eventHandlers = {
+        succeeded: function (e) {
+          console.log(">MESSAGE: Sent");
+        },
+        failed: function (e) {
+          console.log(">MESSAGE: Failed");
+        },
+      };
+
+      const options = {
+        eventHandlers: eventHandlers,
+      };
+
+      this.ua.sendMessage(
+        `sip:${this.remoteUserName}@example.com`,
+        this.message,
+        options
+      );
     },
     callAnswerFn() {
       const id = this.$store.getters["vsip/getSelectedOutputDevice"];

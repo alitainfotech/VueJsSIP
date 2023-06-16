@@ -25,20 +25,22 @@ app.listen(port, () => {
   console.log("Connected to port -" + port);
 });
 
-const wss = new WebSocket("ws://127.0.0.1:8080");
+const wss = new WebSocket.Server({ port: 8000 });
 
-wss.on("error", console.error);
+/* wss.on("error", console.error);
 
 wss.on("open", function open() {
   console.log(">Opened");
-});
+}); */
 
-/* wss.on("connection", function connection(ws) {
+wss.on("connection", function connection(ws) {
+  console.log(">Connected...");
+
   ws.on("error", console.error);
 
   ws.on("open", function open() {
-    console.log(">Opened");wss
-  })
+    console.log(">Opened");
+  });
 
   ws.on("message", function message(data) {
     console.log("received: %s", data);
@@ -46,4 +48,3 @@ wss.on("open", function open() {
 
   ws.send("something");
 });
- */

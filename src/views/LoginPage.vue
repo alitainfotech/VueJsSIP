@@ -38,15 +38,15 @@ export default {
   data: () => ({
     showPassword: false,
     user: {
-      userName: "",
-      userPassword: "",
+      userName: "alice",
+      userPassword: "123",
     },
     rules: {
       required: (value) => !!value || "Required!",
     },
   }),
   methods: {
-    loginFn() {
+    /* loginFn() {
       const { userName, userPassword } = this.user;
 
       // JsSIP.debug.enable("JsSIP:*");
@@ -67,6 +67,23 @@ export default {
       };
 
       this.$store.dispatch("vsip/init", options);
+
+      router.push({ path: "/home" });
+    }, */
+
+    loginFn() {
+      const { userName, userPassword } = this.user;
+
+      const socket = new JsSIP.WebSocketInterface("ws://127.0.0.1:8000");
+      const configuration = {
+        sockets: [socket],
+        uri: `sip:${userName}@example.com`,
+        password: userPassword,
+      };
+
+      const ua = new JsSIP.UA(configuration);
+      this.$store.commit("updateUa", ua);
+      ua.start();
 
       router.push({ path: "/home" });
     },
